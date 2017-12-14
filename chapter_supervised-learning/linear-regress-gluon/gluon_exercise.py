@@ -35,7 +35,7 @@ for e in range(epochs):
         loss.backward()
         trainer.step(batch_size)
         total_loss += nd.sum(loss).asscalar()
-        print("Epoch %d, average loss: %f" % (e, total_loss/num_examples))
+    print("Epoch %d, average loss: %f" % (e, total_loss/num_examples))
 
 dense = net[0]
 print true_w, dense.weight.data()
