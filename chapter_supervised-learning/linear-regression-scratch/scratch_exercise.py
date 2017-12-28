@@ -16,9 +16,8 @@ y = true_w[0] * X[:, 0] + true_w[1] * X[:, 1] + true_b
 y += .01 * nd.random_normal(shape=y.shape)
 
 # plot
-
 import matplotlib
-matplotlib.use('agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 plt.scatter(X[:, 1].asnumpy(),y.asnumpy())
 plt.show()
