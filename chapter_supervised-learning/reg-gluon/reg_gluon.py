@@ -66,4 +66,4 @@ def train(weight_decay):
     return ('learned w[:10]:', net[0].weight.data()[:, :10],
             'learned b:', net[0].bias.data())
 
-train(5)
+train(0)
