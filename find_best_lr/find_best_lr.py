@@ -19,24 +19,33 @@ class BasicFindBestLr():
         self.exit_loss_factor = exit_loss_factor
         self.exit_lr = exit_lr
         self.best_loss = best_loss
+        self.best_lr = 1e-9
         self.trainer = trainer
 
-    def add_lr(self, lr):
+    def find_best_lr(self, lr, loss):
+        self._add_lr(lr)
+        self._add_loss(loss)
+        self._set_best_loss_best_lr(loss, lr)
+        self._set_lr()
+        self._draw_and_exit()
+
+
+    def _add_lr(self, lr):
         self.lrs.append(lr)
 
-    def add_loss(self, loss):
+    def _add_loss(self, loss):
         self.losses.append(loss)
-        self._set_best_loss(loss)
 
-    def _set_best_loss(self, loss):
+    def _set_best_loss_best_lr(self, loss, lr):
         if self.best_loss > loss:
             self.best_loss = loss
+            self.best_lr = lr
 
-    def set_lr(self):
+    def _set_lr(self):
         # 继承需要重写set_lr方法
         pass
 
-    def draw_and_exit(self):
+    def _draw_and_exit(self):
         if self.losses[len(self.losses)-1] > self.exit_loss_factor * self.best_loss or\
                 self.lrs[len(self.lrs)-1] > self.exit_lr:
             plt.figure()
@@ -44,7 +53,8 @@ class BasicFindBestLr():
             plt.xlabel('learning rate')
             plt.ylabel('loss')
             plt.plot(np.log(self.lrs), self.losses)
-            plt.savefig('lr_loss.png')
+            # plt.plot(self.lrs, self.losses)
+            plt.savefig('lr_loss_' + str(self.best_lr) + '.png')
             plt.show()
             plt.figure()
             plt.xlabel('num iterations')
@@ -63,5 +73,5 @@ class GluonFindBestLr(BasicFindBestLr):
         # to enable lr increase
         self.factor = factor
 
-    def set_lr(self):
+    def _set_lr(self):
         self.trainer.set_learning_rate(self.trainer.learning_rate * self.factor)

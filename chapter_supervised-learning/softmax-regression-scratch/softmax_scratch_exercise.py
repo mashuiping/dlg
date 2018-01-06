@@ -49,7 +49,8 @@ for param in params:
 from mxnet import nd
 def softmax(X):
     # 不能用batch_size 因为最后可能出现不是batch_size的第0维
-    X = X - X.max(axis=1).reshape((X.shape[0], -1))
+    # X = X - X.max(axis=1).reshape((X.shape[0], -1))
+    X = X - X.max(axis=1, keepdims=True)
     exp = nd.exp(X)
     for i, l in enumerate(exp):
         for j, e in enumerate(l):
